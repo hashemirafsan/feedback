@@ -1,0 +1,1 @@
+export const TYPE_GET_DATA = "TYPE_GET_DATA";

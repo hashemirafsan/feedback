@@ -1,0 +1,19 @@
+{
+  "name": "feedback-server",
+  "version": "1.0.0",
+  "description": "Feedback Node.js Server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hashemi Rafsan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "mongoose": "^5.3.6",
+    "uuid": "^3.3.2"
+  }
+}
