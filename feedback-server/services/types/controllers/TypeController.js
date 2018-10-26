@@ -55,8 +55,8 @@ class TypeController extends BaseController {
     save(req, res) {
         const { Types } = this.models;
         const saveTypes = new Types({
-            team_type: this.req.params.team_type,
-            feedback_type: this.req.params.feedback_type
+            team_type: this.req.body.team_type,
+            feedback_type: this.req.body.feedback_type
         })
 
         saveTypes.save((err, type) => {

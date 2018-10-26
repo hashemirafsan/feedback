@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Table, Layout, Button, Dialog } from 'element-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypes } from '../../../Store/Actions/_actions';
+import { getTypes, postTypes } from '../../../Store/Actions/_actions';
 import CreateTypes from './CreateTypes';
 
 
@@ -70,13 +70,10 @@ class Types extends Component {
                     onCancel={ () => this.setState({ dialogVisible: false }) }
                     lockScroll={ false }
                 >
-                    <Dialog.Body>
-                        <CreateTypes/>
-                    </Dialog.Body>
-                    <Dialog.Footer className="dialog-footer">
-                        <Button onClick={ () => this.setState({ dialogVisible: false }) }>Cancel</Button>
-                        <Button type="primary" onClick={ () => this.setState({ dialogVisible: false }) }>Confirm</Button>
-                    </Dialog.Footer>
+                    <CreateTypes
+                        onSave={(state) => { this.props.postTypes(state) }}
+                        onClose={() => this.setState({ dialogVisible: false })}
+                    />
                 </Dialog>
             </div>
         );
@@ -91,7 +88,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        getTypes
+        getTypes,
+        postTypes
     }, dispatch);
 }
 
