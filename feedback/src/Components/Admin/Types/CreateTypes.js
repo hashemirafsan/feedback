@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Dialog, Button } from 'element-react';
+import { Form, Input, Dialog, Button, Notification } from 'element-react';
 
 class CreateTypes extends Component {
     constructor(props) {
@@ -8,10 +8,36 @@ class CreateTypes extends Component {
     }
 
     state = {
-        form: {
-            feedback_type: "",
-            team_type: ""
+        feedback_type: "",
+        team_type: ""
+    }
+
+    componentWillReceiveProps(props) {
+        this.props = props;
+    }
+
+    saveForm = () => {
+        const { feedback_type, team_type } = this.state;
+        if (! feedback_type && ! team_type) {
+            Notification({
+                title: 'Warning',
+                message: 'Feedback type and Team type is required!',
+                type: 'warning'
+            });
+            return;
         }
+
+        this.props.onSave(this.state)
+
+        Notification({
+            title: 'Success',
+            message: "Successfully Created Types!",
+            type: 'success'
+        });
+
+        this.setState({ feedback_type: "", team_type: "" });
+
+        this.props.onClose();
     }
 
     render() {
@@ -41,7 +67,11 @@ class CreateTypes extends Component {
                 </Dialog.Body>
                 <Dialog.Footer className="dialog-footer">
                     <Button onClick={ () => this.props.onClose() }>Cancel</Button>
-                    <Button type="primary" onClick={ () => this.props.onSave(this.state) }>Confirm</Button>
+                    <Button 
+                        type="primary" 
+                        onClick={ () => this.saveForm() }
+                        loading={ this.props.onData.loading }
+                    >Confirm</Button>
                 </Dialog.Footer>
             </div>
         );
@@ -51,6 +81,7 @@ class CreateTypes extends Component {
 CreateTypes.propTypes = {
     onSave: PropTypes.func,
     onClose: PropTypes.func,
+    onData: PropTypes.any,
 }
 
 export default CreateTypes;

@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
-const { mongodb } = require('../config/database');
+const { process, type, database } = require('../config/database');
 
-mongoose.connect(`mongodb://${mongodb.user}:${mongodb.password}@${mongodb.host}/${mongodb.database}`);
+if ( process === "prod" && type === "mongodb") {
+    const { mongodb_prod } = database;
+    mongoose.connect(`mongodb://${mongodb_prod.user}:${mongodb_prod.password}@${mongodb_prod.host}/${mongodb_prod.database}`);
+}
+
+if ( process === "dev" && type === "mongodb") {
+    const { mongodb_dev } = database;
+    mongoose.connect(`mongodb://${mongodb_dev.host}/${mongodb_dev.database}`);
+}
 
 module.exports = mongoose;

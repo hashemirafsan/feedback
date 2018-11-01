@@ -17,7 +17,7 @@ class RootApp extends Component {
     render() {
         return (
             <div>
-                <Menu theme="dark" defaultActive="1" className="el-menu-demo" mode="horizontal" onSelect={this.onSelect.bind(this)}>
+                <Menu theme="dark" defaultActive="1" className="el-menu-demo" mode="horizontal" >
                     
                     <Link to={`${root}`}>
                         <Menu.Item index="1">SJ Innovation BD</Menu.Item>

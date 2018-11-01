@@ -2,9 +2,14 @@ import React, { Component } from 'react';
 import Routes from './Routes/index';
 
 class App extends Component {
+  
+  componentWillReceiveProps(props) {
+    this.props = props;
+  }
+
   render() {
     return (
-      <Routes></Routes>
+      <Routes {...this.props}></Routes>
     );
   }
 }

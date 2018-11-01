@@ -10,7 +10,7 @@ class TypeController extends BaseController {
      */
     delete() {
         const { Types } = this.models;
-        const { id } = this.req.params;
+        const { id } = this.req.body;
         Types.findByIdAndRemove({ id }, (err) => {
             if (err) {
                 return this.response({
@@ -33,7 +33,7 @@ class TypeController extends BaseController {
      */
     update() {
         const { Types } = this.models;
-        const { id, team_type, feedback_type } = this.req.params;
+        const { id, team_type, feedback_type } = this.req.body;
         Types.findOneAndUpdate({ _id: id }, { team_type, feedback_type }, (err, type) => {
             if (err) {
                 return this.response({
@@ -67,10 +67,12 @@ class TypeController extends BaseController {
                 }, 404)
             }
 
-            return this.response({
+            this.models.Types.find({})
+            .then(res => this.response({
                 message: "Successfully Created Types",
-                type
-            })
+                types: res
+            }))
+            .catch(err => console.log("something big"))
         })
     }
 

@@ -1,25 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Table, Layout, Button, Dialog } from 'element-react';
+import { Table, Layout, Button, Dialog, Loading, Popover } from 'element-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTypes, postTypes } from '../../../Store/Actions/_actions';
+import { getTypes, postTypes, setIsAuthenticated } from '../../../Store/Actions/_actions';
 import CreateTypes from './CreateTypes';
+import { withRouter } from 'react-router-dom';
 
 
 class Types extends Component {
     constructor(props) {
         super(props);
+        this.props.setIsAuthenticated();
+    }
+
+    componentDidMount() {
         this.props.getTypes()
     }
 
     componentWillReceiveProps(props) {
+        console.log(props);
         this.props = props;
     }
 
     state = {
         dialogVisible: false,
         columns: [
+            {
+                label: "#ID",
+                prop: "_id"
+            },
             {
                 label: "Feedback Type",
                 prop: "feedback_type"
@@ -33,7 +43,18 @@ class Types extends Component {
                 render: (row, col, index) => {
                     return (
                         <span>
-                            
+                            <Button type="info" icon="edit" size="mini">Edit</Button>
+                            <Popover placement="top" width="160" trigger="click" visible={this.state.visible} content={(
+                            <div>
+                                <p>Are you sure to delete this？</p>
+                                <div style={{textAlign: 'right', margin: 0}}>
+                                <Button size="mini" type="text" onClick={() => {}}>Cancel</Button>
+                                <Button type="primary" size="mini" onClick={() => {}}>Confirm</Button>
+                                </div>
+                            </div>
+                            )}>
+                                <Button type="danger" icon="delete2" size="mini">Delete</Button>
+                            </Popover>
                         </span>
                     )
                 }
@@ -56,15 +77,21 @@ class Types extends Component {
                     </Layout.Col>
                 </Layout.Row>
                 <br/>
-                <Table
-                    style={{width:'100%'}}
-                    columns={this.state.columns}
-                    data={[]}
-                    border={true}
-                ></Table>
+                
+                <Loading
+                    text="Types"
+                    loading={this.props.Types.loading}
+                >
+                    <Table
+                        style={{width:'100%'}}
+                        columns={this.state.columns}
+                        data={this.props.Types.types}
+                        border={true}
+                    ></Table>
+                </Loading>
 
                 <Dialog
-                    title="Tips"
+                    title="Add Types"
                     size="tiny"
                     visible={ this.state.dialogVisible }
                     onCancel={ () => this.setState({ dialogVisible: false }) }
@@ -73,6 +100,7 @@ class Types extends Component {
                     <CreateTypes
                         onSave={(state) => { this.props.postTypes(state) }}
                         onClose={() => this.setState({ dialogVisible: false })}
+                        onData={this.props.Types}
                     />
                 </Dialog>
             </div>
@@ -89,8 +117,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         getTypes,
-        postTypes
+        postTypes,
+        setIsAuthenticated
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Types);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Types));
