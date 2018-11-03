@@ -5,3 +5,4 @@ export const AUTH_LOGIN = "AUTH_LOGIN";
 export const TYPE_GET_DATA = "TYPE_GET_DATA";
 export const TYPE_POST_DATA = "TYPE_POST_DATA";
 export const SET_IS_AUTH_DATA = "SET_IS_AUTH_DATA";
+export const QUESTION_GET_DATA = "QUESTION_GET_DATA";

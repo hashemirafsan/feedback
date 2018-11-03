@@ -1,0 +1,32 @@
+.box {
+    height: 40px;
+    width: 200px;
+    background: #fff;
+    border-radius: 6px;
+    padding: 8px;
+    display:table-cell;
+    vertical-align:middle;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.12), 0 1px 5px rgba(0,0,0,0.24);
+    cursor: pointer;
+    color: grey;
+    transition: 0.4s ease-in;
+}
+
+.box:active {
+    background: #aeaeae;
+    color: #ffffff;
+}
+
+.box-icon {
+    display:table-cell;
+    vertical-align:middle;
+    width: 40px;
+}
+
+.box-content {
+    display:table-cell;
+    vertical-align:middle;
+}
+.el-row {
+    padding-bottom: 15px;
+}

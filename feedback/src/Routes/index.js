@@ -4,6 +4,7 @@ import { Route, Redirect, withRouter } from 'react-router-dom';
 // Components
 import AdminRoot from '../Components/Admin/RootApp';
 import Types from '../Components/Admin/Types/Types';
+import SingleTypes from '../Components/Admin/Types/SingleTypes';
 import Questions from '../Components/Admin/Questions/Questions';
 import Employee from '../Components/Admin/Empolyee/Employee';
 
@@ -11,7 +12,6 @@ import ClientRoot from '../Components/Client/RootApp';
 
 import Auth from '../Components/Auth/Auth';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 const Protected = ({ component: Component , ...rest}) => {
 
@@ -81,6 +81,7 @@ const routes = (props) => {
             <Protected path="/admin/types" { ...props } component={Types}></Protected>
             <Protected path="/admin/questions" { ...props} component={Questions}></Protected>
             <Protected path="/admin/employee" { ...props} component={Employee}></Protected>
+            <Protected path="/admin/type/:id" { ...props } component={SingleTypes}></Protected>
         </div>
     )
 }

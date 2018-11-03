@@ -1,12 +1,10 @@
 import { 
     UNAUTHORIZED,
-    TYPE_GET_DATA,
-    TYPE_POST_DATA
+    QUESTION_GET_DATA
 } from '../../Types/_action_types';
 import Env from '../../../Env';
 import Initial from '../../Initial/_initial_state';
 import axios from 'axios';
-
 
 const getToken = () => {
     if (Initial.isAuthenticated) {
@@ -18,23 +16,22 @@ const removeToken = () => {
     sessionStorage.setItem('feedback_session', null);
 }
 
-const getTypes = () => {
+const getQuestions = (type_id) => {
     
     getToken();
 
     return (dispatch, getState) => {
-        console.log(getState)
         dispatch({
-            type: TYPE_GET_DATA,
+            type: QUESTION_GET_DATA,
             payload: {
                 loading: true,
-                types: []
+                questions: []
             }
         });
-        axios.get(`${Env.api_url}/types/`)
+        axios.get(`${Env.api_url}/questions/`, {type_id})
         .then(res => {
             dispatch({
-                type: TYPE_GET_DATA,
+                type: QUESTION_GET_DATA,
                 payload: {
                     loading: false,
                     ...res.data
@@ -56,32 +53,6 @@ const getTypes = () => {
     }
 }
 
-const postTypes = (formData) => {
-    
-    getToken();
-
-    return (dispatch) => {
-        dispatch({
-            type: TYPE_POST_DATA,
-            payload: {
-                loading: true
-            }
-        })
-
-        axios.post(`${Env.api_url}/types/create`, formData)
-        .then(res => {
-            dispatch({
-                type: TYPE_POST_DATA,
-                payload: {
-                    loading: false,
-                    ...res.data
-                }
-            })
-        })
-    }
-}
-
 export {
-    getTypes,
-    postTypes
+    getQuestions
 }

@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import { getTypes, postTypes, setIsAuthenticated } from '../../../Store/Actions/_actions';
 import CreateTypes from './CreateTypes';
 import { withRouter } from 'react-router-dom';
+import { chunk } from 'lodash';
+import './css/types.css';
 
 
 class Types extends Component {
@@ -62,6 +64,64 @@ class Types extends Component {
         ]
     }
 
+    updateTypes = () => {
+        let data = this.props.Types.types;
+        if (data) {
+            data.push(null);            
+        } else {
+            data = [null];
+        }
+        return chunk(data, 6);
+    }
+
+    showDataFolder = (col) => {
+        if (col) {
+            return (
+                <div 
+                    className="box" 
+                    onClick={ () => { 
+                        const { history } = this.props;
+                        history.push(`/admin/type/${col._id}`)
+                    } }
+                >
+                    <div className="box-icon"><i className="el-icon-document"></i></div>
+                    <div className="box-content">{ col.feedback_type }</div>
+                </div>
+            )
+        } else {
+            return (
+                <div 
+                    className="box"
+                    onClick={() => this.setState({ dialogVisible: true })}
+                >
+                    <div className="box-icon"><i className="el-icon-plus"></i></div>
+                    <div className="box-content">Add New</div>
+                </div>
+            )
+        }
+    }
+
+    showDataCol = (row) => {
+        return row.map((col, key) => {
+            return (
+                <Layout.Col span="4" key={key}>
+                    { this.showDataFolder(col) }
+                </Layout.Col>
+            )
+        })
+    }
+
+    showDataRow = () => {
+        const data = this.updateTypes();
+        return data.map((row, key) => {
+            return (
+                <Layout.Row key={key} class="data">
+                    { this.showDataCol(row) }
+                </Layout.Row> 
+            )
+        })
+    }
+
     render() {
         return(
             <div>
@@ -81,13 +141,14 @@ class Types extends Component {
                 <Loading
                     text="Types"
                     loading={this.props.Types.loading}
-                >
-                    <Table
+                >   
+                    { this.showDataRow() }
+                    {/* <Table
                         style={{width:'100%'}}
                         columns={this.state.columns}
                         data={this.props.Types.types}
                         border={true}
-                    ></Table>
+                    ></Table> */}
                 </Loading>
 
                 <Dialog
